@@ -79,7 +79,9 @@ class Status < ApplicationRecord
   has_many :local_bookmarked, -> { merge(Account.local) }, through: :bookmarks, source: :account
 
   has_and_belongs_to_many :tags
-  has_and_belongs_to_many :preview_cards
+
+  has_many :preview_cards_statuses, dependent: :destroy
+  has_many :preview_cards, -> { select('preview_cards.*, preview_cards_statuses.url AS original_url').joins(:preview_cards_statuses) }, through: :preview_cards_statuses
 
   has_one :notification, as: :activity, dependent: :destroy
   has_one :status_stat, inverse_of: :status

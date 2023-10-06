@@ -8,6 +8,14 @@ class REST::PreviewCardSerializer < ActiveModel::Serializer
              :provider_url, :html, :width, :height,
              :image, :image_description, :embed_url, :blurhash, :published_at
 
+  def url
+    if object.respond_to?(:original_url)
+      object.original_url.presence || object.url
+    else
+      object.url
+    end
+  end
+
   def image
     object.image? ? full_asset_url(object.image.url(:original)) : nil
   end
