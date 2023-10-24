@@ -1648,10 +1648,19 @@ en:
     preferences: Preferences
     profile: Public profile
     relationships: Follows and followers
+    severed_relationships: Severed relationships
     statuses_cleanup: Automated post deletion
     strikes: Moderation strikes
     two_factor_authentication: Two-factor Auth
     webauthn_authentication: Security keys
+  severed_relationships:
+    download: Download (%{count})
+    event_type:
+      domain_block: Server suspension
+    lost_followers: Lost followers
+    lost_follows: Lost follows
+    preamble: You may lose follows and followers when you block a domain or when your moderators decide to suspend a remote server. When that happens, you will be able to download lists of severed relationships, to be inspected and possibly imported on another server.
+    type: Event
   statuses:
     attached:
       audio:
