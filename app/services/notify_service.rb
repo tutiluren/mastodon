@@ -109,7 +109,7 @@ class NotifyService < BaseService
 
   def blocked?
     blocked   = @recipient.suspended?
-    blocked ||= from_self? && @notification.type != :poll
+    blocked ||= from_self? && @notification.type != :poll && @notification.type != :relationships_severed
 
     return blocked if message? && from_staff?
 
