@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe 'GET /api/v1/accounts/relationships' do
+describe 'GET /api/v2/accounts/relationships' do
   subject do
-    get '/api/v1/accounts/relationships', headers: headers, params: params
+    get '/api/v2/accounts/relationships', headers: headers, params: params
   end
 
   let(:user)    { Fabricate(:user) }
@@ -47,10 +47,11 @@ describe 'GET /api/v1/accounts/relationships' do
 
         expect(response).to have_http_status(200)
         expect(json).to be_a Enumerable
-        expect(json.size).to eq 2
+        expect(json.size).to eq 3
 
         expect_simon_item_one
         expect_lewis_item_two
+        expect_bob_item_three
       end
 
       def expect_simon_item_one
@@ -72,6 +73,16 @@ describe 'GET /api/v1/accounts/relationships' do
         expect(json.second[:requested]).to be false
         expect(json.second[:domain_blocking]).to be false
       end
+
+      def expect_bob_item_three
+        expect(json.third[:id]).to eq bob.id.to_s
+        expect(json.third[:following]).to be false
+        expect(json.third[:showing_reblogs]).to be false
+        expect(json.third[:followed_by]).to be false
+        expect(json.third[:muting]).to be false
+        expect(json.third[:requested]).to be false
+        expect(json.third[:domain_blocking]).to be false
+      end
     end
 
     it 'returns JSON with correct data on cached requests too' do
@@ -91,7 +102,7 @@ describe 'GET /api/v1/accounts/relationships' do
       subject
       user.account.unfollow!(simon)
 
-      get '/api/v1/accounts/relationships', headers: headers, params: { id: [simon.id] }
+      get '/api/v2/accounts/relationships', headers: headers, params: { id: [simon.id] }
 
       expect(response).to have_http_status(200)
 
